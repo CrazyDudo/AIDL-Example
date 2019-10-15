@@ -28,7 +28,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String ACTION_BIND_SERVICE = "com.example.intent.action.START";
+    private static final String ACTION_BIND_SERVICE = "com.example.aidlexample.intent.action.START";
     @BindView(R.id.btn_basic)
     Button btnBasic;
     @BindView(R.id.btn_entity)
@@ -39,26 +39,33 @@ public class MainActivity extends AppCompatActivity {
     TextView tvResult;
     @BindView(R.id.btn_bind)
     Button btnBind;
-    private MyConnection myConnection;
+    @BindView(R.id.btn_unbind)
+    Button btnUnbind;
+
     private IMyAidlInterface iMyAidlInterface;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btn_basic, R.id.btn_entity, R.id.btn_listener, R.id.btn_bind})
+    @OnClick({R.id.btn_basic, R.id.btn_entity, R.id.btn_listener, R.id.btn_bind, R.id.btn_unbind})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_bind:
-                bindService();
+                bindRemoteService();
+                break;
+            case R.id.btn_unbind:
+                unbindService(mConnection);
                 break;
             case R.id.btn_basic:
                 //基础类型参数
                 try {
-                    iMyAidlInterface.basicTypes(777, 22l, true, 2, 2.1, "basic params test from client app");
+                    iMyAidlInterface.basicTypes(777, 22l, true, 2, 2.1, "hi,this is client");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -84,30 +91,44 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
 
+
         }
     }
 
     private IResultListener listener = new IResultListener.Stub() {
         @Override
         public void onResult(ResponseEntity responseEntity) throws RemoteException {
-                tvResult.setText("result msg=="+responseEntity.getResultMsg());
+            tvResult.setText("result msg==" + responseEntity.getResultMsg());
         }
     };
 
-    public void bindService() {
+    public void bindRemoteService() {
+        explicitBind();
+//        implicitBind();
+    }
+
+    //显示启动
+    private void explicitBind() {
         Intent intent = new Intent();
-        //利用intent中的Action区分查找要绑定服务
-        intent.setAction(ACTION_BIND_SERVICE);
-//		intent.setPackage("put package name");
-        final Intent eintent = new Intent(createExplicitFromImplicitIntent(this, intent));
-        myConnection = new MyConnection();
-        bindService(eintent, myConnection, BIND_AUTO_CREATE);
+
+        intent.setComponent(new ComponentName("com.example.aidlexample", "com.example.aidlexample.AidlService"));
+
+        bindService(intent, mConnection, BIND_AUTO_CREATE);
     }
 
 
-    class MyConnection implements ServiceConnection {
+    //隐式启动(隐式转显示)
+    private void implicitBind() {
+        Intent intent = new Intent();
+        //利用intent中的Action区分查找要绑定服务
+        intent.setAction(ACTION_BIND_SERVICE);
+
+        Intent explicitIntent = new Intent(createExplicitFromImplicitIntent(this, intent));
+        bindService(explicitIntent, mConnection, BIND_AUTO_CREATE);
+    }
 
 
+    private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             //必须使用IService中的静态方法转换，不能强转
@@ -117,10 +138,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            // TODO Auto-generated method stub
-        }
 
-    }
+        }
+    };
+
 
     /**
      * createExplicitFromImplicitIntent

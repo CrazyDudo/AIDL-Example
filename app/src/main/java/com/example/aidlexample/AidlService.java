@@ -16,29 +16,6 @@ public class AidlService extends Service {
 
     private static final String TAG = "AidlService";
 
-    private class MyBinder extends IMyAidlInterface.Stub {
-        @Override
-        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-            Log.d(TAG, "basicTypes: server have received the client params:" + aString);
-
-        }
-
-        @Override
-        public void objectTypes(RequestEntity requestEntity) throws RemoteException {
-
-            Log.d(TAG, "objectTypes:requestEntity.getRequestMsg=== " + requestEntity.getRequestMsg());
-        }
-
-        @Override
-        public void callbackTypes(IResultListener listener) throws RemoteException {
-            ResponseEntity entity = new ResponseEntity();
-            entity.setResultCode(0);
-            entity.setResultMsg("Result OK");
-            listener.onResult(entity);
-        }
-
-    }
-
     @Override
     public IBinder onBind(Intent intent) {
         Log.d(TAG, "onBind====");
@@ -61,6 +38,29 @@ public class AidlService extends Service {
     public void onDestroy() {
         Log.d(TAG, "onDestroy====");
         super.onDestroy();
+    }
+
+    private class MyBinder extends IMyAidlInterface.Stub {
+        @Override
+        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+            Log.d(TAG, "basicTypes: server received :" + aString);
+
+        }
+
+        @Override
+        public void objectTypes(RequestEntity requestEntity) throws RemoteException {
+
+            Log.d(TAG, "objectTypes:requestEntity.getRequestMsg=== " + requestEntity.getRequestMsg());
+        }
+
+        @Override
+        public void callbackTypes(IResultListener listener) throws RemoteException {
+            ResponseEntity entity = new ResponseEntity();
+            entity.setResultCode(0);
+            entity.setResultMsg("Result OK");
+            listener.onResult(entity);
+        }
+
     }
 
 }

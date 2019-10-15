@@ -18,11 +18,11 @@
         </activity>
         <service android:name=".AidlService">
 
-                <intent-filter >
-                    <!-- 提供远程服务，注册需要使用隐式方式 -->
-                    <action android:name="com.example.intent.action.START"/>
+            <intent-filter>
+                <!-- 提供远程服务，注册需要使用隐式方式 -->
+                <action android:name="com.example.aidlexample.intent.action.START" />
 
-                </intent-filter>
+            </intent-filter>
 
         </service>
     </application>
