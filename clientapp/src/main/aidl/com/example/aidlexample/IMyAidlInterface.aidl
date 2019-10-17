@@ -16,4 +16,7 @@ interface IMyAidlInterface {
     void objectTypes(in RequestEntity requestEntity);
     //callback 回调
     void callbackTypes(IResultListener listener);
+
+    //返回值
+    String getModel();
 }

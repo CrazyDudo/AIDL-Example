@@ -35,6 +35,12 @@
         android:layout_height="wrap_content"
         android:text="listener 回调" />
 
+    <Button
+        android:id="@+id/btn_model"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="get model" />
+
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="match_parent"

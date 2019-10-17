@@ -41,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
     Button btnBind;
     @BindView(R.id.btn_unbind)
     Button btnUnbind;
+    @BindView(R.id.btn_model)
+    Button btnModel;
 
     private IMyAidlInterface iMyAidlInterface;
-
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btn_basic, R.id.btn_entity, R.id.btn_listener, R.id.btn_bind, R.id.btn_unbind})
+    @OnClick({R.id.btn_basic, R.id.btn_entity, R.id.btn_listener, R.id.btn_bind, R.id.btn_unbind, R.id.btn_model})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_bind:
@@ -69,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-
                 break;
             case R.id.btn_entity:
                 RequestEntity entity = new RequestEntity();
@@ -80,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-
                 break;
             case R.id.btn_listener:
                 try {
@@ -88,10 +88,14 @@ public class MainActivity extends AppCompatActivity {
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-
                 break;
-
-
+            case R.id.btn_model:
+                try {
+                    Log.d(TAG, "onViewClicked:model= " + iMyAidlInterface.getModel());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
     }
 
@@ -107,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 //        implicitBind();
     }
 
-    //显示启动
+    //显示绑定
     private void explicitBind() {
         Intent intent = new Intent();
 
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //隐式启动(隐式转显示)
+    //隐式绑定(隐式转显示)
     private void implicitBind() {
         Intent intent = new Intent();
         //利用intent中的Action区分查找要绑定服务

@@ -3,6 +3,7 @@ package com.example.aidlexample;
 import android.app.Service;
 import android.content.Intent;
 
+import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -59,6 +60,14 @@ public class AidlService extends Service {
             entity.setResultCode(0);
             entity.setResultMsg("Result OK");
             listener.onResult(entity);
+        }
+
+        @Override
+        public String getModel(){
+
+            Log.d(TAG, "basicTypes: MODEL== "+ android.os.Build.MODEL);
+            Log.d(TAG, "basicTypes: BRAND== "+android.os.Build.BRAND);
+            return  android.os.Build.MODEL;
         }
 
     }
