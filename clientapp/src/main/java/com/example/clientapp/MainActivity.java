@@ -29,20 +29,21 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
     private static final String ACTION_BIND_SERVICE = "com.example.aidlexample.intent.action.START";
+    @BindView(R.id.btn_bind)
+    Button btnBind;
+    @BindView(R.id.btn_unbind)
+    Button btnUnbind;
     @BindView(R.id.btn_basic)
     Button btnBasic;
     @BindView(R.id.btn_entity)
     Button btnEntity;
     @BindView(R.id.btn_listener)
     Button btnListener;
-    @BindView(R.id.tv_result)
-    TextView tvResult;
-    @BindView(R.id.btn_bind)
-    Button btnBind;
-    @BindView(R.id.btn_unbind)
-    Button btnUnbind;
     @BindView(R.id.btn_model)
     Button btnModel;
+    @BindView(R.id.tv_result)
+    TextView tvResult;
+
 
     private IMyAidlInterface iMyAidlInterface;
     private static final String TAG = "MainActivity";
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_basic:
                 //基础类型参数
                 try {
-                    iMyAidlInterface.basicTypes(777, 22l, true, 2, 2.1, "hi,this is client");
+                    iMyAidlInterface.basicTypes(777, 22L, true, 2, 2.1, "hi,this is client");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -108,15 +109,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void bindRemoteService() {
         explicitBind();
-//        implicitBind();
+//      implicitBind();
     }
 
     //显示绑定
     private void explicitBind() {
         Intent intent = new Intent();
-
         intent.setComponent(new ComponentName("com.example.aidlexample", "com.example.aidlexample.AidlService"));
-
         bindService(intent, mConnection, BIND_AUTO_CREATE);
     }
 
@@ -145,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
-
 
     /**
      * createExplicitFromImplicitIntent

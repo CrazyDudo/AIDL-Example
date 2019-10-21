@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AIDL-Example.iml" filepath="$PROJECT_DIR$/AIDL-Example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/AIDL-Example-app.iml" filepath="$PROJECT_DIR$/app/AIDL-Example-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clientapp/AIDL-Example-clientapp.iml" filepath="$PROJECT_DIR$/clientapp/AIDL-Example-clientapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/clientapp/clientapp.iml" filepath="$PROJECT_DIR$/clientapp/clientapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iprojects-AIDL-Example.iml" filepath="$PROJECT_DIR$/iprojects-AIDL-Example.iml" />
     </modules>
   </component>
 </project>
